@@ -1,7 +1,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 
 const wss = new WebSocketServer({ port: 8080 });
-const allSocket: WebSocket[] = [];
+let allSocket: WebSocket[] = [];
 
 wss.on("connection", (socket) => {
   allSocket.push(socket);
@@ -14,4 +14,7 @@ wss.on("connection", (socket) => {
       }
     }
   });
+  socket.on("close" , () => {
+    allSocket = allSocket.filter(x => x!= socket)
+  })
 });
